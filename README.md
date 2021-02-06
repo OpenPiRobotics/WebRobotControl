@@ -49,7 +49,7 @@ git clone https://github.com/OpenPiRobotics/WebRobotControl.git
 
 ## Modify the appControl.py for your motor controller
 
-You will need to modify the appControl.py to suit your motor controller.
+You may need to modify the appControl.py to suit your motor controller.
 
 modify line 42 to import your motor controller library
 ```
@@ -64,9 +64,9 @@ mh = MotorKit()
 
 ```
 
-you will also need to modify the function set_speeds.
+Modify the function set_speeds if required.
 
-Change the lines 59 to 62. you will need to delete or hash out lines 61, 62, if your controller has only 2 channels
+Change the lines 59 to 62, delete or hash out lines 61, 62, if your controller has only 2 channels
 ```
 
 mh.motor1.throttle = power_right
@@ -76,7 +76,7 @@ mh.motor4.throttle = power_left
 
 ```
 
-You may need to change the values in the calls for setting your motors speeds in the function **action** starting from line 132. The Adafruit motor bonnet uses a float value between 0 and 1.
+You may also need to change the values in the calls for setting your motors speeds in the function **action** starting from line 132. The Adafruit motor bonnet uses a float value between 0 and 1.
 
 ## Running the Code
 
