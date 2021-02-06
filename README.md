@@ -9,7 +9,7 @@ The Robot, I used for testing is based on a Coretec Robotics Tiny 4WD Chassis\* 
 
  \*Full disclosure, I'm (Brian Corteil) the designer of the Coretec Tiny 4WD and receive a royalty for each kit sold by Pimoroni.
 
- Some other robot kits I would recommend are the 
+ Other robot kits I would recommend are the 
  
 [CamJam Robot kit](https://thepihut.com/collections/camjam-edukit/products/camjam-edukit-3-robotics) Great kit to start with great learning resources available.
 
@@ -25,7 +25,7 @@ Install the latest verson of Raspberry Pi OS to a SD card, follow the instructio
 
 Flask is a Python library for creating web apps and has a light weight webserver for testing, the web server is not recommended for production use. More details about Flask [here.](https://flask.palletsprojects.com/en/1.1.x/)
 
-you can install flask by using the command line by entering the following
+Install flask by using the command line by entering the following
 
 ```
 
@@ -76,11 +76,11 @@ mh.motor4.throttle = power_left
 
 ```
 
-You may need to change the values in the calls for setting your motors speeds in the function action starting from line 132. The Adafruit motor bonnet uses a float value between 0 and 1.
+You may need to change the values in the calls for setting your motors speeds in the function **action** starting from line 132. The Adafruit motor bonnet uses a float value between 0 and 1.
 
 ## Running the Code
 
-Note: It is important not to change the project's folder structure for the code to work.
+**Note:** It is important not to change the project's folder structure for the code to work.
 
 Run the appControl.py in the root of the project with.
 ```
