@@ -76,6 +76,8 @@ mh.motor4.throttle = power_left
 
 ```
 
+You may need to change the values in the calls for setting your motors speeds in the function action starting from line 132. The Adafruit motor bonnet uses a float value between 0 and 1.
+
 ## Running the Code
 
 Note: It is important not to change the project's folder structure for the code to work.
