@@ -88,7 +88,7 @@ Run the appControl.py in the root of the project with.
 python3 appControl.py
 
 ```
-To start the Web interface use the web browser of your choice and enter the following replacing <ip address> with the IP address of your robot or it's host name and <port> is the port defined on line 165 of appControl.py
+To start the Web interface use the web browser of your choice and enter the following replacing \<ip address\> with the IP address of your robot or it's host name and \<port\> is the port defined on line 165 of appControl.py
  ```
  
  http://<ip address>:<port>
