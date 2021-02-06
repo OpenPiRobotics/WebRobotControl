@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<title>Tiny 4WD Web Control</title>
+<link rel="stylesheet" href='../static/style.css'/>
+
+
+</head>
+
+
+<body>
+<h1>Testbed Web Controls</h1>
+<canvas id="crosspad" width="256" height="256" >
+</canvas>
+
+<p id="message"></p>
+<p id="coordinates"></p>
+<h3 id="instructionsHeader">Instructions</h3>
+<p id="instructions">To control the robot, you can use your mouse or the Arrow or WASD keys.</p>
+
+<script>
+
+var canvas = document.getElementById('crosspad');
+var lastKey = "Space";
+
+// setup mouse events
+canvas.addEventListener("mousedown", doMouseDown, false);
+canvas.addEventListener("mouseup", stopMotors, false);
+
+// setup keyboard events
+
+window.addEventListener( "keydown", keyPressed, false);
+window.addEventListener( "keyup", stopMotors, false);
+
+var img = new Image();   // Create new img element
+img.src = 'static/D-Pad.png'; // Set source path to blank D-Pad
+var ctx = canvas.getContext("2d");
+
+// stop motors on load or refresh
+// stopMotors();
+
+img.addEventListener('load', function() {
+  // execute drawImage statements here
+  ctx.drawImage(img, 0, 0);
+}, false);
+
+function doMouseDown(event) {
+		
+	canvas_x = event.offsetX;
+	canvas_Y = event.offsetY;
+	
+	document.getElementById("coordinates").innerHTML = "X= "+ canvas_x + " Y=" + canvas_Y;
+	
+	if (canvas_Y < 100 && (canvas_x >= 102 && canvas_x <= 169)) {
+	   console.log("Mouse: Up");
+	   //fetch("http://testbed.lan/motor/forward", { mode: 'no-cors'})
+	   document.getElementById("message").innerHTML = "Up";
+	   img.src = 'static/D-Pad-up.png'; // Set source path to right 
+	   ctx.drawImage(img, 0, 0);
+	   fetch("/motor/forward", { mode: 'no-cors'})
+	   }
+	
+	if (canvas_Y > 169 && (canvas_x >= 102 && canvas_x <= 169)) {
+	   console.log("Mouse: Down");
+	   //fetch("http://testbed.lan/motor/backward", { mode: 'no-cors'})
+	   document.getElementById("message").innerHTML = "Down";
+	   img.src = 'static/D-Pad-down.png'; // Set source path to right 
+	   ctx.drawImage(img, 0, 0);
+	   fetch("/motor/backward", { mode: 'no-cors'})
+	   }
+	
+	
+	if ((canvas_x <= 101 && canvas_x >= 39) && (canvas_Y >= 102 && canvas_Y <= 169)) {
+	   console.log("Mouse: Left");
+	   //fetch("http://testbed.lan/motor/left", { mode: 'no-cors'})
+	   document.getElementById("message").innerHTML = "Left";
+	   img.src = 'static/D-Pad-left.png'; // Set source path to right 
+	   ctx.drawImage(img, 0, 0);
+	   fetch("/motor/left", { mode: 'no-cors'})
+	   }
+	   
+	if ((canvas_x <= 234 && canvas_x >= 169) && (canvas_Y >= 102 && canvas_Y <= 169)) {
+       console.log("Mouse: Right");
+	   //fetch("http://testbed.lan/motor/right", { mode: 'no-cors'})
+	   document.getElementById("message").innerHTML = "Right";
+	   img.src = 'static/D-Pad-right.png'; // Set source path to right 
+	   ctx.drawImage(img, 0, 0);
+	   fetch("/motor/right", { mode: 'no-cors'})
+	   }
+}
+
+function stopMotors(event) {
+    	
+	document.getElementById("message").innerHTML = "Stop Motors";
+	console.log("mouse button or key released: Motors stopped")
+	lastKey = "Off";
+	img.src = 'static/D-Pad.png'; // Set source path to blank 
+	ctx.drawImage(img, 0, 0);
+	//fetch("http://testbed.lan/motor/off", { mode: 'no-cors'})
+    fetch("/motor/off", { mode: 'no-cors'})
+
+}
+	
+function keyPressed(event) {
+  //document.getElementById("message").innerHTML = event.keyCode;
+  console.log("Key pressed: " + event.key + " last Key pressed: " + lastKey);
+  if (event.key != lastKey) {
+  lastKey = event.key;
+  console.log("Updated lastKey " + lastKey);
+  switch(event.key){
+    case ("ArrowRight"):
+	  //fetch("http://testbed.lan/motor/right", { mode: 'no-cors'})
+      fetch("/motor/right", { mode: 'no-cors'})
+	  document.getElementById("message").innerHTML = "Right";
+	  img.src = 'static/D-Pad-right.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  break;
+	  
+	case (("d")):
+	  //fetch("http://testbed.lan/motor/right", { mode: 'no-cors'})
+      fetch("/motor/right", { mode: 'no-cors'})
+	  document.getElementById("message").innerHTML = "Right";
+	  img.src = 'static/D-Pad-right.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  break;
+	  
+	case ("ArrowLeft"):
+	  //fetch("http://testbed.lan/motor/left", { mode: 'no-cors'})
+      fetch("/motor/left", { mode: 'no-cors'})
+	  document.getElementById("message").innerHTML = "Left";
+	  img.src = 'static/D-Pad-left.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  break;
+	  
+	case ("a"):
+	  //fetch("http://testbed.lan/motor/left", { mode: 'no-cors'})
+      fetch("/motor/left", { mode: 'no-cors'})
+	  document.getElementById("message").innerHTML = "Left";
+	  img.src = 'static/D-Pad-left.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  break;
+	
+	case ("ArrowUp"):
+	  //fetch("http://testbed.lan/motor/forward", { mode: 'no-cors'})
+      fetch("/motor/forward", { mode: 'no-cors'})
+	  document.getElementById("message").innerHTML = "Up";
+	  img.src = 'static/D-Pad-up.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  break;
+	  
+	case ("w"):
+	  //fetch("http://testbed.lan/motor/forward", { mode: 'no-cors'})
+      fetch("/motor/forward", { mode: 'no-cors'})
+	  document.getElementById("message").innerHTML = "Up";
+	  img.src = 'static/D-Pad-up.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  break;
+	  
+	case ("ArrowDown"):
+	  //fetch("http://testbed.lan/motor/backward", { mode: 'no-cors'})
+      fetch("/motor/backward", { mode: 'no-cors'})
+	  document.getElementById("message").innerHTML = "Down";
+	  img.src = 'static/D-Pad-down.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  break;
+	  
+	case ("s"):
+	  //fetch("http://testbed.lan/motor/backward", { mode: 'no-cors'})
+      fetch("/motor/backward", { mode: 'no-cors'})
+	  document.getElementById("message").innerHTML = "Down";
+	  img.src = 'static/D-Pad-down.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  break;
+  //stopMotors();
+	}	// switch end
+  } // if end
+  else {
+  
+  console.log("Repeat Key: '" + event.key + "' Blocked");
+	
+  }
+}
+
+</script>
+
+</body>
+</html>
