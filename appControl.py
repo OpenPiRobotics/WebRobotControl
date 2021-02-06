@@ -64,12 +64,9 @@ try:
 
     def stop_motors():
         """
-        As we have an motor hat, stop the motors using their motors call
+        As we have an motor hat, stop the motors using set_speeds
         """
-        mh.motor1.throttle = 0
-        mh.motor2.throttle = 0
-        mh.motor3.throttle = 0
-        mh.motor4.throttle = 0
+        set_speeds(0, 0)
 
 
 except ImportError:
