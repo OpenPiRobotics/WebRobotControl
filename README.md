@@ -7,7 +7,7 @@ This project is written in Python3, JavaScript and uses the Python library Flask
 
 The Robot("Testbed"), I used for testing is based on a Custom Coretec Robotics Tiny 4WD Chassis\* and a kit\** is available from [Pimoroni](https://shop.pimoroni.com/products/coretec-tiny-4wd-robot-rover). Testbed's brains are a Raspberry Pi 4 model B with an [Adafruit Brain hat](https://www.adafruit.com/product/437) for user interface duties and an [Adafruit Motor Bonnet](https://www.adafruit.com/product/4280) for controlling the four 300:1 N20 micro metal gearmotors. Power for the motors and the Raspberry Pi(via a DC-DC converter) is supplied by a 2 cell LiPo battery. 
 
-Other robot kits I would recommend are the [CamJam Robot kit](https://thepihut.com/collections/camjam-edukit/products/camjam-edukit-3-robotics) is a great kit to start learning robotics with and has excellent learning resources available. Any of the [4tronix](https://shop.4tronix.co.uk/collections/robot-kits) kits.
+Other robot kits I would recommend are the [CamJam Robot kit](https://thepihut.com/collections/camjam-edukit/products/camjam-edukit-3-robotics) a great kit to start learning robotics with and has excellent learning resources available. Any of the [4tronix](https://shop.4tronix.co.uk/collections/robot-kits) kits.
 
 
 **WARNING: Take care when using LiPo's they can make your life interesting in all the wrong ways!**
