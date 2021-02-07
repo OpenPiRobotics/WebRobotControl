@@ -39,7 +39,7 @@ pip3 install Flask
 
 ### Your libraries
 
-You will also need to install any libraries you require if it is not part of the standard Raspberry Pi OS install.
+You will also need to install any libraries you require if they are not part of the standard Raspberry Pi OS Python3 install.
 
 ## Download the code
 
