@@ -5,6 +5,15 @@
 A simple web interface for controlling your Raspberry Pi robot over the internet or your LAN.
 This project is written in Python3, JavaScript and uses the Python library Flask for hosting the web app.
 
+There are two index pages, index.html and index2.html. index.html code is more simple but does not have the circle pad control. You will need to change line 145 in the appControl.py to point to index.html instead of index2.html
+```
+ return render_template('index2.html', **templateData)
+ ```
+ to
+ ```
+  return render_template('index.html', **templateData)
+```
+
 ## The Robot
 
 ![](images/testbed.jpg)
