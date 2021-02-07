@@ -15,7 +15,7 @@ The Robot("Testbed"), I used for testing is based on a Custom Coretec Robotics T
  
  Some other robot kits I would recommend are the 
  
-[CamJam Robot kit](https://thepihut.com/collections/camjam-edukit/products/camjam-edukit-3-robotics) Great kit to start with great learning resources available.
+[CamJam Robot kit](https://thepihut.com/collections/camjam-edukit/products/camjam-edukit-3-robotics) is a great kit to start learning robotics with and has excellent learning resources available.
 
 Any of the [4tronix](https://shop.4tronix.co.uk/collections/robot-kits) kits.
 
