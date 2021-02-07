@@ -6,7 +6,7 @@
 	subsequently modified by Tom Oinn to add dummy functions when no explorer hat is available.
 """
 import RPi.GPIO as GPIO
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from time import sleep
 import board
 import busio
@@ -66,6 +66,7 @@ try:
         """
         As we have an motor hat, stop the motors using set_speeds
         """
+
         set_speeds(0, 0)
 
 
@@ -87,6 +88,31 @@ except ImportError:
         No motor hat, so just print a message.
         """
         print('Motors stopping')
+
+def mixer(yaw, throttle, max_power = 1):
+
+    """
+    Mix a pair of joystick axes, returning a pair of wheel speeds. This is where the mapping from
+    joystick positions to wheel powers is defined, so any changes to how the robot drives should
+    be made here, everything else is really just plumbing.
+
+    :param yaw:
+        Yaw axis value, ranges from -1.0 to 1.0
+    :param throttle:
+        Throttle axis value, ranges from -1.0 to 1.0
+    :param max_power:
+        Maximum speed that should be returned from the mixer, defaults to 100
+    :return:
+        A pair of power_left, power_right integer values to send to the motor driver
+    """
+
+    print(f"Yaw = {yaw} Throttle = {throttle}")
+
+    left = throttle + yaw
+    right = throttle - yaw
+    scale = float(max_power) / max(1, abs(left), abs(right))
+    return left * scale, right * scale
+
 
 # define the Web app
 
@@ -116,12 +142,12 @@ def index():
     templateData = {
         'title': 'Remote Pi Noon',
     }
-    return render_template('index.html', **templateData)
+    return render_template('index2.html', **templateData)
 
 
 # motor control is /motor then the action /forward or /left
 
-@app.route("/<deviceName>/<action>")
+@app.route("/<deviceName>/<action>/")
 def action(deviceName, action):
     global robotStatus, lastAction
 
@@ -147,6 +173,17 @@ def action(deviceName, action):
         if action == "right":
             robotStatus["motor1"] = 1
             robotStatus["motor2"] = -1
+
+        if action == "mixer":
+            x = float(request.args.get('x'))
+            y = float(request.args.get('y'))
+
+            x, y = mixer(x, y)
+
+            robotStatus["motor1"] = x;
+            robotStatus["motor2"] = y;
+
+            action = f"{action} x{x} y{y}"
 
         # set motor speeds
         set_speeds(robotStatus["motor1"], robotStatus["motor2"])
