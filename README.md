@@ -5,11 +5,15 @@ This project is written in Python3, JavaScript and uses the Python library Flask
 
 ## The Robot
 
-The Robot, I used for testing is based on a Coretec Robotics Tiny 4WD Chassis\* and a kit is available from [Pimoroni](https://shop.pimoroni.com/products/coretec-tiny-4wd-robot-rover) with a Raspberry Pi 4 model B as the brains and an [Adafruit Motor Bonnet](https://www.adafruit.com/product/4280) for controlling the motors.
+The Robot("Testbed"), I used for testing is based on a Custom Coretec Robotics Tiny 4WD Chassis\* and a kit\** is available from [Pimoroni](https://shop.pimoroni.com/products/coretec-tiny-4wd-robot-rover). Testbed's brains are a Raspberry Pi 4 model B with an [Adafruit Brain hat](https://www.adafruit.com/product/437) for user interface duties and an [Adafruit Motor Bonnet](https://www.adafruit.com/product/4280) for controlling the four 300:1 N20 micro metal gearmotors. Power for the motors and the Raspberry Pi(via a DC-DC converter) is supplied by a 2 cell LiPo battery.
 
- \*Full disclosure, I'm (Brian Corteil) the designer of the Coretec Tiny 4WD and receive a royalty for each kit sold by Pimoroni.
+**WARNING: Take care when using LiPo's they can make your life interesting in all the wrong ways!**
 
- Other robot kits I would recommend are the 
+ \* Full disclosure, I'm (Brian Corteil) the designer of the Coretec Tiny 4WD and receive a royalty for each kit sold by Pimoroni.
+
+\** The kit sold by Pimoroni includes their wonderful [Explorer Phat](https://shop.pimoroni.com/products/explorer-phat) not the Adafruit Motor Bonnet.
+ 
+ Some other robot kits I would recommend are the 
  
 [CamJam Robot kit](https://thepihut.com/collections/camjam-edukit/products/camjam-edukit-3-robotics) Great kit to start with great learning resources available.
 
