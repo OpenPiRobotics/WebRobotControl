@@ -120,4 +120,4 @@ python3 /home/pi/streameye/extras/raspimjpeg.py -w 640 -h 480 -r 10 --vflip --hf
 ```
 
  
- for debuging the web interface press F12
+ for debuging the web interface press F12 in your web browser with the page loaded.
