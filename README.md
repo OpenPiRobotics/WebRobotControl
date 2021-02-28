@@ -6,7 +6,7 @@ A simple web interface for controlling your Raspberry Pi robot over the internet
 This project is written in Python3, JavaScript and uses the Python library Flask for hosting the web app.
 
 There are three index pages, index.html, index2.html and video.html. index.html code is more simple but does not have the circle pad control. 
-You will need to change line 145 in appControl.py to point to the template you wish to use. if you are using the video template you will also need to you will also need to change line 17 in video.html to point to your camera.
+You will need to change line 145 in appControl.py to point to the template you wish to use. if you are using the video template you will also need to change line 17 in video.html to point to your camera.
 
 ```
  return render_template('index2.html', **templateData)
