@@ -1,6 +1,6 @@
 # WebRobotControl
 
-![](images/CircleDashBoard.png)
+![](images/video-index.png)
 
 A simple web interface for controlling your Raspberry Pi robot over the internet or your LAN.
 This project is written in Python3, JavaScript and uses the Python library Flask for hosting the web app.
