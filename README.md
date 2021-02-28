@@ -5,7 +5,9 @@
 A simple web interface for controlling your Raspberry Pi robot over the internet or your LAN.
 This project is written in Python3, JavaScript and uses the Python library Flask for hosting the web app.
 
-There are two index pages, index.html and index2.html. index.html code is more simple but does not have the circle pad control. You will need to change line 145 in the appControl.py to point to index.html instead of index2.html
+There are three index pages, index.html, index2.html and video.html. index.html code is more simple but does not have the circle pad control. 
+You will need to change line 145 in appControl.py to point to the template you wish to use. if you are using the video template you will also need to you will also need to change line 17 in video.html to point to your camera.
+
 ```
  return render_template('index2.html', **templateData)
  ```
@@ -13,6 +15,11 @@ There are two index pages, index.html and index2.html. index.html code is more s
  ```
   return render_template('index.html', **templateData)
 ```
+ or
+```
+  return render_template('video.html', **templateData)
+```
+ 
 
 ## The Robot
 
@@ -42,9 +49,15 @@ Flask is a Python library for creating web apps and has a light weight webserver
 Install flask by using the command line by entering the following
 
 ```
-
 pip3 install Flask
+```
 
+### Video streamimg
+
+For streaming the Raspberry Pi camera I used ccrisan project. [website](https://github.com/ccrisan/streameye) to download it use the following enter 
+
+```
+https://github.com/ccrisan/streameye.git
 ```
 
 ### Your libraries
@@ -56,9 +69,7 @@ You will also need to install any libraries you require if they are not part of 
 Enter the following at the command line to download the project's code
 
 ```
-
 git clone https://github.com/OpenPiRobotics/WebRobotControl.git
-
 ```
 
 ## Modify the appControl.py for your motor controller
@@ -67,27 +78,21 @@ You may need to modify the appControl.py to suit your motor controller.
 
 modify line 42 to import your motor controller library
 ```
-
 from adafruit_motorkit import MotorKit
-
 ```
 and line 44 to setup your motor controller.
 ```
-
 mh = MotorKit()
-
 ```
 
 Modify the function set_speeds if required.
 
 Change the lines 59 to 62, delete or hash out lines 61, 62, if your controller has only 2 channels
 ```
-
 mh.motor1.throttle = power_right
 mh.motor2.throttle = power_right
 mh.motor3.throttle = power_left
 mh.motor4.throttle = power_left
-
 ```
 
 You may also need to change the values in the calls for setting your motors speeds in the function **action** starting from line 132. The Adafruit motor bonnet uses a float value between 0 and 1.
@@ -98,22 +103,21 @@ You may also need to change the values in the calls for setting your motors spee
 
 Run the appControl.py in the root of the project with.
 ```
-
 python3 appControl.py
-
 ```
 To start the Web interface use the web browser of your choice and enter the following replacing \<ip address\> with the IP address of your robot or it's host name and \<port\> is the port defined on line 165 of appControl.py
  ```
- 
  http://<ip address>:<port>
- 
  ```
  
  For example when I'm at home to access the web control interface, I would enter 
  ```
- 
  testbed.lan:5080
- 
  ```
+ and if I wish to start the camera streaming I would enter before starting appControl.py
+```
+python3 /home/pi/streameye/extras/raspimjpeg.py -w 640 -h 480 -r 10 --vflip --hflip | streameye &
+```
+
  
  for debuging the web interface press F12
