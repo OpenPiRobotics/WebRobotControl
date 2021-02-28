@@ -54,7 +54,7 @@ pip3 install Flask
 
 ### Video streamimg
 
-For streaming the Raspberry Pi camera I used the [streameye project](https://github.com/ccrisan/streameye) by ccrisan. To download it enter the following on the command line
+For streaming the Raspberry Pi camera I used the [streameye project](https://github.com/ccrisan/streameye) by Calin Crisan. To download it enter the following on the command line
 
 ```
 https://github.com/ccrisan/streameye.git
