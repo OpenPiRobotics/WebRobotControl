@@ -1,12 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>CCTV Video Test</title>
-	
+
+<meta charset="utf-8">
+<title>Robot Web Control</title>
+<link rel="stylesheet" href='../static/style.css'/>
+
+
 </head>
 
-<body style="margin: 0px; background: #0e0e0e; height: 100%"><img style="-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 25%);" src="http://192.168.86.237:8080/video" width="300" height="200"></body>
+
+<body>
+<h1>Robot Web Controls</h1>
+
+<!--<img  video source>-->
+<img src="<robot camera ip address">:<port number>">
+<p></p>
+<canvas id="crosspad" width="256" height="256" >
+</canvas>
+<canvas id="circlepad" width="256" height="256" >
+</canvas>
+
+<p id="message"></p>
+<p id="coordinates"></p>
+<h3 id="instructionsHeader">Instructions</h3>
+<p id="instructions">To control the robot, you can use your mouse or the Arrow or WASD keys.</p>
+
+<script>
+    
+// define global variables
+var canvas = document.getElementById('crosspad');
+var canvas1 = document.getElementById('circlepad');
+var lastKey = "Space";
+var mouseDown = false;
+var lastTime = Date.now();
+
+// setup mouse events for the D-Pad
+canvas.addEventListener("mousedown", doMouseDown, false);
+canvas.addEventListener("mouseup", stopMotors, false);
+
+// setup mouse events for the Circle-Pad
+canvas1.addEventListener("mousedown", doCircleMouseDown, false);
+canvas1.addEventListener("mousemove", doMixer, false);
+canvas1.addEventListener("mouseup", stopMotors, false);
+canvas1.addEventListener("mouseleave", stopMotors, false);
+
+// setup keyboard events for the window
+window.addEventListener( "keydown", keyPressed, false);
+window.addEventListener( "keyup", stopMotors, false);
+
+// D-Pad image
+var img = new Image();   // Create new img element
+img.src = 'static/D-Pad.png'; // Set source path to blank D-Pad
+var ctx = canvas.getContext("2d");
+
+// Circle-Pad image
+var img1 = new Image();
+img1.src = 'static/Circle-Pad.png';
+var ctx1 = canvas1.getContext("2d");
+
+// load the images
+img.addEventListener('load', function() {
+  // execute drawImage statements here
+  ctx.drawImage(img, 0, 0);
+  ctx1.drawImage(img1, 0,0);
+}, false);
+
+function doMouseDown(event) {
+		
+	canvas_x = event.offsetX;
+	canvas_Y = event.offsetY;
+	
+	document.getElementById("coordinates").innerHTML = "X= "+ canvas_x + " Y=" + canvas_Y;
+	
+	if (canvas_Y < 100 && (canvas_x >= 102 && canvas_x <= 169)) {
+	   console.debug("Mouse: Up");
+	   document.getElementById("message").innerHTML = "Up";
+	   img.src = 'static/D-Pad-up.png'; // Set source path to right 
+	   ctx.drawImage(img, 0, 0);
+	   path = "/motor/forward";
+	   }
+	
+	if (canvas_Y > 169 && (canvas_x >= 102 && canvas_x <= 169)) {
+	   console.debug("Mouse: Down");
+	   document.getElementById("message").innerHTML = "Down";
+	   img.src = 'static/D-Pad-down.png'; // Set source path to right 
+	   ctx.drawImage(img, 0, 0);
+	   path = "/motor/backward";
+	   }
+
+	if ((canvas_x <= 101 && canvas_x >= 39) && (canvas_Y >= 102 && canvas_Y <= 169)) {
+	   console.debug("Mouse: Left");
+	   document.getElementById("message").innerHTML = "Left";
+	   img.src = 'static/D-Pad-left.png'; // Set source path to right 
+	   ctx.drawImage(img, 0, 0);
+	   path = "/motor/left";
+	   }
+	   
+	if ((canvas_x <= 234 && canvas_x >= 169) && (canvas_Y >= 102 && canvas_Y <= 169)) {
+       console.debug("Mouse: Right");
+	   document.getElementById("message").innerHTML = "Right";
+	   img.src = 'static/D-Pad-right.png'; // Set source path to right 
+	   ctx.drawImage(img, 0, 0);
+	   path = "/motor/right";
+	   }
+
+	fetch(path, { mode: 'no-cors'});
+}
+
+// Define functions
+
+function doCircleMouseDown (event) {
+
+    console.debug("Mixer: mouse button down ");
+    mouseDown = true;
+    doMixer(event);
+} // function end
+
+function doMixer(event) {
+
+    var currentTime = Date.now();
+    console.debug("Mixer: current time " + currentTime + " last time " + lastTime);
 
 
+    if (currentTime > (lastTime + 50) && mouseDown) {
+
+        console.debug("Passed");
+        lastTime = currentTime;
+
+        // asign and adjust coordinates origin to circle centre
+
+        canvas_x = event.offsetX - 128;
+        canvas_Y = -(event.offsetY - 128);
+
+        if (canvas_x >= -100 && canvas_x <=100) {canvas_x = canvas_x / 100 }
+
+        if (canvas_Y >= -100 && canvas_Y <=100) { canvas_Y = canvas_Y / 100 }
+
+        if (canvas_x > 100) { canvas_x = 1 }
+
+        if (canvas_x < -100) { canvas_x = -1 }
+
+        if (canvas_Y > 100) { canvas_Y = 1 }
+
+        if (canvas_Y < -100) { canvas_Y = -1 }
+
+        // log a debug message
+
+        var logMessage = "Circle X: " + canvas_x + " Y: " + canvas_Y;
+        document.getElementById("message").innerHTML = logMessage;
+        document.getElementById("coordinates").innerHTML = "X= "+ canvas_x + " Y=" + canvas_Y;
+        console.debug(logMessage);
+
+        // sent coordinates to motor/mixer/
+
+        var message = "/motor/mixer/?x=" + canvas_x + "&y=" + canvas_Y;
+        fetch(message, {mode: 'no-cors'})
+    }
+
+    else {
+
+        console.debug("Blocked");
+
+    }
+} // function end
+
+function stopMotors() {
+    	
+	document.getElementById("message").innerHTML = "Stop Motors";
+	console.debug("mouse button or key released: Motors stopped")
+	lastKey = "Off";
+	mouseDown = false;
+	img.src = 'static/D-Pad.png'; // Set source path to blank 
+	ctx.drawImage(img, 0, 0);
+
+    fetch("/motor/off", { mode: 'no-cors'})
+
+} // function end
+
+function keyPressed(event) {
+
+  console.debug("Key pressed: " + event.key + " last Key pressed: " + lastKey);
+  if (event.key !== lastKey) {
+  lastKey = event.key;
+  console.debug("Updated lastKey " + lastKey);
+  switch(event.key){
+    case ("ArrowRight"):
+
+      path = "/motor/right";
+	  document.getElementById("message").innerHTML = "Right";
+	  img.src = 'static/D-Pad-right.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  
+	case (("d")):
+
+      path = "/motor/right";
+	  document.getElementById("message").innerHTML = "Right";
+	  img.src = 'static/D-Pad-right.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  
+	case ("ArrowLeft"):
+      path = "/motor/left";
+	  document.getElementById("message").innerHTML = "Left";
+	  img.src = 'static/D-Pad-left.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  
+	case ("a"):
+      path = "/motor/left";
+	  document.getElementById("message").innerHTML = "Left";
+	  img.src = 'static/D-Pad-left.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	
+	case ("ArrowUp"):
+      path = "/motor/forward";
+	  document.getElementById("message").innerHTML = "Up";
+	  img.src = 'static/D-Pad-up.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  
+	case ("w"):
+      path = "/motor/forward";
+	  document.getElementById("message").innerHTML = "Up";
+	  img.src = 'static/D-Pad-up.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  
+	case ("ArrowDown"):
+      path = "/motor/backward";
+	  document.getElementById("message").innerHTML = "Down";
+	  img.src = 'static/D-Pad-down.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+	  
+	case ("s"):
+      path = "/motor/backward";
+	  document.getElementById("message").innerHTML = "Down";
+	  img.src = 'static/D-Pad-down.png'; // Set source path to right 
+	  ctx.drawImage(img, 0, 0);
+
+	}	// switch end
+
+    fetch(path, { mode: 'no-cors'})
+
+  } // if end
+  else {
+  
+  console.debug("Repeat Key: '" + event.key + "' Blocked");
+	
+  } // else end
+}
+
+</script>
+
+</body>
 </html>
