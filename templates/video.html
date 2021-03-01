@@ -191,6 +191,7 @@ function keyPressed(event) {
 	  document.getElementById("message").innerHTML = "Right";
 	  img.src = 'static/D-Pad-right.png'; // Set source path to right 
 	  ctx.drawImage(img, 0, 0);
+          break;
 	  
 	case (("d")):
 
@@ -198,42 +199,49 @@ function keyPressed(event) {
 	  document.getElementById("message").innerHTML = "Right";
 	  img.src = 'static/D-Pad-right.png'; // Set source path to right 
 	  ctx.drawImage(img, 0, 0);
+	  break;
 	  
 	case ("ArrowLeft"):
       path = "/motor/left";
 	  document.getElementById("message").innerHTML = "Left";
 	  img.src = 'static/D-Pad-left.png'; // Set source path to right 
 	  ctx.drawImage(img, 0, 0);
+	  break;
 	  
 	case ("a"):
       path = "/motor/left";
 	  document.getElementById("message").innerHTML = "Left";
 	  img.src = 'static/D-Pad-left.png'; // Set source path to right 
 	  ctx.drawImage(img, 0, 0);
+	  break;
 	
 	case ("ArrowUp"):
       path = "/motor/forward";
 	  document.getElementById("message").innerHTML = "Up";
 	  img.src = 'static/D-Pad-up.png'; // Set source path to right 
 	  ctx.drawImage(img, 0, 0);
+	  break;
 	  
 	case ("w"):
       path = "/motor/forward";
 	  document.getElementById("message").innerHTML = "Up";
 	  img.src = 'static/D-Pad-up.png'; // Set source path to right 
 	  ctx.drawImage(img, 0, 0);
+	  break;
 	  
 	case ("ArrowDown"):
       path = "/motor/backward";
 	  document.getElementById("message").innerHTML = "Down";
 	  img.src = 'static/D-Pad-down.png'; // Set source path to right 
 	  ctx.drawImage(img, 0, 0);
+	  break;
 	  
 	case ("s"):
       path = "/motor/backward";
 	  document.getElementById("message").innerHTML = "Down";
 	  img.src = 'static/D-Pad-down.png'; // Set source path to right 
 	  ctx.drawImage(img, 0, 0);
+	  break;
 
 	}	// switch end
 
